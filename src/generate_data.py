@@ -16,24 +16,32 @@ markets = [
     "Egypt"
 ]
 
-risk_segments = ["Low", "Medium", "High"]
-
 data = []
 
 for i in range(1000):
+
     device_price = random.randint(50, 1200)
-    deposit_paid = random.randint(0, 300)
+
+    deposit_paid = random.randint(
+        0,
+        int(device_price * 0.5)
+    )
 
     loan_amount = device_price - deposit_paid
 
-    days_past_due = max(0, int(np.random.normal(15, 20)))
+    days_past_due = max(
+        0,
+        int(np.random.normal(15, 20))
+    )
 
     if days_past_due > 60:
         repayment_status = "Default"
         risk = "High"
+
     elif days_past_due > 30:
         repayment_status = "Late"
         risk = "Medium"
+
     else:
         repayment_status = "Current"
         risk = "Low"
@@ -58,7 +66,10 @@ for i in range(1000):
 
 df = pd.DataFrame(data)
 
-df.to_csv("data/device_financing_data.csv", index=False)
+df.to_csv(
+    "data/device_financing_data.csv",
+    index=False
+)
 
 print("Synthetic dataset generated successfully.")
 print(df.head())
