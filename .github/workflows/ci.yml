@@ -1,0 +1,41 @@
+name: Data Engineering CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-data-pipeline:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas numpy faker scikit-learn
+
+      - name: Generate Synthetic Data
+        run: |
+          python src/generate_data.py
+
+      - name: Run Data Quality Checks
+        run: |
+          python src/data_quality.py
+
+      - name: Run ETL Pipeline
+        run: |
+          python src/etl_pipeline.py
+
+      - name: Train Risk Model
+        run: |
+          python src/train_model.py
